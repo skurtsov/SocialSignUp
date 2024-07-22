@@ -4,6 +4,7 @@ const cors = require('cors');
 const { MongoClient } = require('mongodb');
 const { OAuth2Client } = require('google-auth-library');
 const fetch = require('node-fetch');
+const fs = require('fs');
 
 const app = express();
 const PORT = 3002;
@@ -13,7 +14,11 @@ app.use(bodyParser.json());
 
 const CLIENT_ID = '977186718526-14rdv2hqrkq7d77vbipibi4farp8in9r.apps.googleusercontent.com';
 const my_client = new OAuth2Client(CLIENT_ID);
-
+//ssl
+const sslOptions = {
+  key: fs.readFileSync(path.join(__dirname, 'ssl', 'server.key')),
+  cert: fs.readFileSync(path.join(__dirname, 'ssl', 'server.cert')),
+};
 // Подключение к MongoDB через MongoClient
 const uri = "mongodb+srv://simon:s53em4e10@cluster0.vleofry.mongodb.net/formulario?retryWrites=true&w=majority";
 let db;

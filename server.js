@@ -23,8 +23,9 @@ let db;
 MongoClient.connect(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  tls: true,
-  tlsAllowInvalidCertificates: true,
+  tls: false,
+  tlsAllowInvalidCertificates: true, // Allow invalid certificates
+  tlsInsecure: true, // Disable strict SSL validation
 })
   .then(client => {
     console.log('Connected to MongoDB Atlas');

@@ -7,7 +7,6 @@ const fetch = require('node-fetch');
 const fs = require('fs');
 const path = require('path');
 
-
 const app = express();
 const PORT = 3002;
 
@@ -16,16 +15,17 @@ app.use(bodyParser.json());
 
 const CLIENT_ID = '977186718526-14rdv2hqrkq7d77vbipibi4farp8in9r.apps.googleusercontent.com';
 const my_client = new OAuth2Client(CLIENT_ID);
-//ssl
-const sslOptions = {
-  key: fs.readFileSync(path.join(__dirname, 'ssl', 'server.key')),
-  cert: fs.readFileSync(path.join(__dirname, 'ssl', 'server.cert')),
-};
-// Подключение к MongoDB через MongoClient
+
+// MongoDB Connection
 const uri = "mongodb+srv://simon:s53em4e10@cluster0.vleofry.mongodb.net/formulario?retryWrites=true&w=majority";
 let db;
 
-MongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
+MongoClient.connect(uri, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  tls: true,
+  tlsAllowInvalidCertificates: true,
+})
   .then(client => {
     console.log('Connected to MongoDB Atlas');
     db = client.db('formulario');
@@ -35,9 +35,10 @@ MongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
   })
   .catch(error => console.error('Error connecting to MongoDB Atlas', error));
 
-app.get('/test', (req,res)=>{
-  res.send('working good')
-})
+app.get('/test', (req, res) => {
+  res.send('working good');
+});
+
 app.post('/google-login', async (req, res) => {
   const { token } = req.body;
   try {
@@ -83,13 +84,13 @@ app.post('/api/facebook-login', async (req, res) => {
     res.status(500).send({ message: 'Ошибка при входе через Facebook', error });
   }
 });
+
 app.post('/register', async (req, res) => {
   const { email } = req.body;
   try {
-
-    let user = await db.collection('users').findOne({ email:email });
+    let user = await db.collection('users').findOne({ email: email });
     if (!user) {
-      user = { email: email};
+      user = { email: email };
       await db.collection('users').insertOne(user);
     }
 

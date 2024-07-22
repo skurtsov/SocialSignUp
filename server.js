@@ -28,6 +28,9 @@ MongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
   })
   .catch(error => console.error('Error connecting to MongoDB Atlas', error));
 
+app.get('/test', (req,res)=>{
+  res.send('working good')
+})
 app.post('/google-login', async (req, res) => {
   const { token } = req.body;
   try {

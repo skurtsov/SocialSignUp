@@ -24,15 +24,17 @@ MongoClient.connect(uri, {
 })
   .then(client => {
     console.log('Connected to MongoDB Atlas');
-    db = client.db('formulario');
+    db = client.db('users');
     app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
     });
   })
   .catch(error => console.error('Error connecting to MongoDB Atlas', error));
 
-app.get('/test', (req, res) => {
+app.get('/test', async (req, res) => {
   res.send('working good');
+  await db.collection('users').insertOne(user);
+
 });
 
 app.post('/google-login', async (req, res) => {

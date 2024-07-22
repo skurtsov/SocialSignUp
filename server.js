@@ -24,7 +24,7 @@ MongoClient.connect(uri, {
 })
   .then(client => {
     console.log('Connected to MongoDB Atlas');
-    db = client.db('users');
+    db = client.db('formulario');
     app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
     });

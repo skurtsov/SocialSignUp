@@ -4,8 +4,6 @@ const cors = require('cors');
 const { MongoClient } = require('mongodb');
 const { OAuth2Client } = require('google-auth-library');
 const fetch = require('node-fetch');
-const fs = require('fs');
-const path = require('path');
 
 const app = express();
 const PORT = 3002;
@@ -16,14 +14,12 @@ app.use(bodyParser.json());
 const CLIENT_ID = '977186718526-14rdv2hqrkq7d77vbipibi4farp8in9r.apps.googleusercontent.com';
 const my_client = new OAuth2Client(CLIENT_ID);
 
-// MongoDB Connection
 const uri = "mongodb+srv://simon:s53em4e10@cluster0.vleofry.mongodb.net/formulario?retryWrites=true&w=majority";
 let db;
 
 MongoClient.connect(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  tls: false,
   tlsAllowInvalidCertificates: true, // Allow invalid certificates
   tlsInsecure: true, // Disable strict SSL validation
 })

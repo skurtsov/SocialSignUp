@@ -20,7 +20,6 @@ let db;
 MongoClient.connect(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  tlsAllowInvalidCertificates: true, // Allow invalid certificates
   tlsInsecure: true, // Disable strict SSL validation
 })
   .then(client => {
